@@ -7,4 +7,7 @@ app.get('/', (req, res) => {
     res.send('hello world')
 })
 
+app.use('/readers', readerRouter)
+app.use('/books', bookRouter)
+
 app.listen(PORT)
