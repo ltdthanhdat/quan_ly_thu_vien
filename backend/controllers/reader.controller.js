@@ -1,5 +1,15 @@
+import pool from "../config/database.js"
+
 const getAllReaders = (req, res) => {
-    res.send('list readers')
+    pool.query(
+        'SELECT * FROM DocGia',
+        (err, rows) => {
+            if (err) {
+                console.log(err)
+            }
+            res.json(rows);
+        }
+    )
 }
 
 const postReader = (req, res) => {
