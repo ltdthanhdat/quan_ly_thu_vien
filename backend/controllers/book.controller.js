@@ -1,44 +1,55 @@
-import pool from '../config/database.js'
+import db from '../config/database.js'
 
 const getAllBooks = (req, res) => {
-    const sqlQuery = 'select * from Sach'
-    pool.query(
-        sqlQuery,
-        (err, rows) => {
+    const sql = 'select * from Sach'
+    db.query(
+        sql,
+        (err, result) => {
             if (err) {
                 console.log(err)
                 res.json('error')
             }
-            res.json(rows);
+            res.json(result);
         }
     )
 }
 
 const postBook = (req, res) => {
-    // const sqlQuery = 'insert into Sach (TenSach, TheLoai, TacGia, MaNXB) values (?, ?, ?, ?)'
-    const [TheLoai, TenSach, TacGia, MaNXB] = req.body
-    console.log(TheLoai)
-    console.log(TenSach)
-    console.log(TacGia)
-    console.log(MaNXB)
-    // pool.query(sqlQuery, [TenSach, TheLoai, TacGia, MaNXB],
-    // (err, rows) => {
-    // if (err) {
-    //             console.log(err)
-    //             res.json('error')
-    //         }
-    //         res.json(rows);
-    //     }
-    // )
-    // res.json('book posted')
+    const sql = 'insert into Sach (TenSach, TheLoai, TacGia, MaNXB) values (?, ?, ?, ?)'
+    db.query(sql, [req.body.TenSach, req.body.TheLoai, req.body.TacGia, req.body.MaNXB],
+        (err, result) => {
+            if (err) {
+                console.log(err)
+                res.json('error')
+            }
+            res.json('book posted');
+        }
+    )
 }
 
 const updateBook = (req, res) => {
-    res.json('book updated')
+    const maSach = req.params.id
+    const data = Object.entries(req.body).map(([key, value]) => `${key}="${value}"`).join(', ')
+    const sql = `update Sach set ${data} where MaSach = ${maSach}`
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.log(err)
+            res.json("error")
+        }
+        res.json("book updated")
+    })
 }
 
 const deleteBook = (req, res) => {
-    res.json('book deleted')
+    const maSach = req.params.id
+    const sql = `delete from Sach where MaSach = "${maSach}"`
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.log(err)
+            res.json("error")
+        }
+        res.json("book deleted")
+    })
 }
 
 export default { getAllBooks, postBook, updateBook, deleteBook }
