@@ -8,4 +8,6 @@ router.post('/', readerCtrl.postReader)
 
 router.put('/:id', readerCtrl.updateReader)
 
+router.delete('/:id', readerCtrl.deleteReader)
+
 export default router

@@ -1,23 +1,62 @@
-import pool from "../config/database.js"
+import db from "../config/database.js"
 
 const getAllReaders = (req, res) => {
-    pool.query(
-        'SELECT * FROM DocGia',
-        (err, rows) => {
+    const sql = 'select * from DocGia'
+    db.query(
+        sql,
+        (err, result) => {
             if (err) {
                 console.log(err)
+                res.json('error')
             }
-            res.json(rows);
+            res.json(result);
         }
     )
 }
 
 const postReader = (req, res) => {
-    res.send('reader posted')
+    const sql = 'insert into DocGia (HoTen, DiaChi, SDT, TrangThai) values (?, ?, ?, ?)'
+    db.query(sql, [req.body.HoTen, req.body.DiaChi, req.body.SDT, req.body.TrangThai],
+        (err, result) => {
+            if (err) {
+                console.log(err)
+                res.json('error')
+            }
+            const maDocGia = result.insertId
+            db.query('select * from DocGia where MaDocGia=?', [maDocGia],
+                (err, result) => {
+                    res.json(result[0])
+                })
+
+            // res.json(result.insertId)
+            // res.json('reader posted');
+        }
+    )
 }
 
 const updateReader = (req, res) => {
-    res.send('reader updated')
+    const maSoThe = req.params.id
+    const data = Object.entries(req.body).map(([key, value]) => `${key}="${value}"`).join(', ')
+    const sql = `update DocGia set ${data} where MaSoThe = ${maSoThe}`
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.log(err)
+            res.json("error")
+        }
+        res.json("reader updated")
+    })
 }
 
-export default { getAllReaders, postReader, updateReader }
+const deleteReader = (req, res) => {
+    const maSoThe = req.params.id
+    const sql = `delete from DocGia where MaSoThe = "${maSoThe}"`
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.log(err)
+            res.json("error")
+        }
+        res.json("reader deleted")
+    })
+}
+
+export default { getAllReaders, postReader, updateReader, deleteReader }
