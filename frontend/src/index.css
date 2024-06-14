@@ -1,0 +1,20 @@
+/* Reset margin và padding */
+/* Reset margin và padding cho tất cả các phần tử */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* overflow: hidden; */
+    /* Đảm bảo width và height tính cả border và padding */
+}
+
+/* Reset margin và padding cho các phần tử của Bootstrap Container */
+.container,
+.container-fluid,
+.row,
+.col,
+.navbar,
+.navbar-expand {
+    margin: 0;
+    padding: 0;
+}
