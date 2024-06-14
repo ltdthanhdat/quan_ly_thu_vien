@@ -14,4 +14,4 @@ npm install
 npm run dev
 ```
 
-Kết quả đạt được khi truy dập http://localhost:5173
+Kết quả đạt được khi truy cập http://localhost:5173
