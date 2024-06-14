@@ -9,9 +9,9 @@ npm run dev
 ```
 Mở terminal khác cùng thư mục, chạy
 ```shell
-cd backenl
+cd backend
 npm install
 npm run dev
 ```
 
-Kết quả đạt được khi truy cập http://localhost:5173
+Kết quả đạt được khi truy dập http://localhost:5173
