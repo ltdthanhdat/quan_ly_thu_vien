@@ -4,6 +4,8 @@ const router = express.Router()
 
 router.get('/', readerCtrl.getAllReaders)
 
+router.get('/search', readerCtrl.searchReader)
+
 router.post('/', readerCtrl.postReader)
 
 router.put('/:id', readerCtrl.updateReader)

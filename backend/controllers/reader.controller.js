@@ -35,9 +35,9 @@ const postReader = (req, res) => {
 }
 
 const updateReader = (req, res) => {
-    const maSoThe = req.params.id
+    const maDocGia = req.params.id
     const data = Object.entries(req.body).map(([key, value]) => `${key}="${value}"`).join(', ')
-    const sql = `update DocGia set ${data} where MaSoThe = ${maSoThe}`
+    const sql = `update DocGia set ${data} where MaDocGia = ${maDocGia}`
     db.query(sql, (err, result) => {
         if (err) {
             console.log(err)
@@ -48,8 +48,8 @@ const updateReader = (req, res) => {
 }
 
 const deleteReader = (req, res) => {
-    const maSoThe = req.params.id
-    const sql = `delete from DocGia where MaSoThe = "${maSoThe}"`
+    const maDocGia = req.params.id
+    const sql = `delete from DocGia where MaDocGia = "${maDocGia}"`
     db.query(sql, (err, result) => {
         if (err) {
             console.log(err)
@@ -58,5 +58,27 @@ const deleteReader = (req, res) => {
         res.json("reader deleted")
     })
 }
+const searchReader = (req, res) => {
+    const { MaDocGia, HoTen } = req.query;
+    let sql = 'select * from DocGia where 1=1';
+    const params = [];
 
-export default { getAllReaders, postReader, updateReader, deleteReader }
+    if (MaDocGia) {
+        sql += ' and MaDocGia = ?';
+        params.push(MaDocGia);
+    }
+
+    if (HoTen) {
+        sql += ' and HoTen like ?';
+        params.push(`%${HoTen}%`);
+    }
+
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            console.log(err);
+            res.json('error');
+        }
+        res.json(result);
+    });
+}
+export default { getAllReaders, postReader, updateReader, deleteReader, searchReader }
