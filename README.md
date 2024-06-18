@@ -1,6 +1,6 @@
 # Website quản lý thư viện
 ## Link web: [libmanagement.sytes.net](http://libmanagement.sytes.net)
-## Building and installation
+## Installation
 Sau khi clone repo, chạy
 ```shell
 cd frontend
